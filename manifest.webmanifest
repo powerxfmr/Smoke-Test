@@ -1,0 +1,16 @@
+{
+  "name": "Timesheet Inspection Report",
+  "short_name": "Timesheet",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#eef0f5",
+  "theme_color": "#0b7cff",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

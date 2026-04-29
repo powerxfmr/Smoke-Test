@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7cff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Timesheet">
+  <title>Timesheet Inspection Report</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="workspace">
+      <header class="toolbar">
+        <div>
+          <h1>Monthly Time Sheet</h1>
+        </div>
+        <div class="toolbar-actions">
+          <label class="field compact">
+            <span>Month</span>
+            <select id="monthSelect"></select>
+          </label>
+          <button id="exportExcel" type="button">Export Excel</button>
+          <button id="exportPdf" type="button">Export PDF</button>
+        </div>
+      </header>
+
+      <section class="profile-grid" aria-label="Profile">
+        <label class="field">
+          <span>ชื่อ-นามสกุล (Name)</span>
+          <input id="profileName" autocomplete="name">
+        </label>
+        <label class="field">
+          <span>รหัสพนักงาน (Employee ID. No.)</span>
+          <input id="employeeId">
+        </label>
+        <label class="field">
+          <span>ตำแหน่ง (Position)</span>
+          <input id="position">
+        </label>
+        <label class="field">
+          <span>Department</span>
+          <input id="department">
+        </label>
+        <label class="field">
+          <span>Cost Center</span>
+          <input id="costCenter">
+        </label>
+        <label class="field">
+          <span>Division</span>
+          <input id="division">
+        </label>
+      </section>
+
+      <section class="split-view">
+        <div class="day-list" id="dayList" aria-label="Timesheet days"></div>
+
+        <form class="editor" id="dayForm">
+          <div class="editor-header">
+            <div>
+              <p class="eyebrow">Day</p>
+              <h2 id="selectedDayTitle">1</h2>
+            </div>
+            <span id="savedStatus">Saved</span>
+          </div>
+
+          <div class="editor-grid">
+            <label class="field">
+              <span>เข้า (In)</span>
+              <input id="timeIn" type="time" value="07:30">
+            </label>
+            <label class="field">
+              <span>ออก Out</span>
+              <input id="timeOut" type="time" value="16:30">
+            </label>
+            <label class="field">
+              <span>Site งาน</span>
+              <input id="site">
+            </label>
+            <label class="field">
+              <span>หมายเหตุ</span>
+              <input id="remark">
+            </label>
+          </div>
+
+          <label class="field">
+            <span>รายละเอียดงานที่ทำ (Wok Description)</span>
+            <textarea id="description" rows="4"></textarea>
+          </label>
+
+          <section class="signature-section">
+            <div class="signature-head">
+              <div>
+                <p class="eyebrow">Daily Customer Sign</p>
+                <h3>ลายเซ็นต์ลูกค้าหรือหัวหน้างาน</h3>
+              </div>
+              <button id="clearSignature" type="button">Clear</button>
+            </div>
+            <label class="field">
+              <span>Customer / supervisor name</span>
+              <input id="customerName">
+            </label>
+            <canvas id="signaturePad" width="720" height="220" aria-label="Signature pad"></canvas>
+          </section>
+        </form>
+      </section>
+    </section>
+
+    <section class="print-page" id="printPage" aria-label="Printable report">
+      <h2>Monthly Time Sheet (รายงานการปฎิบัติงานประจำเดือน)</h2>
+      <div class="print-meta month-line">เดือน(Month) <span data-print="month"></span></div>
+      <div class="print-info">
+        <div><strong>ชื่อ-นามสกุล</strong> <span data-print="name"></span><br><span>(Name)</span></div>
+        <div><strong>รหัสพนักงาน</strong> <span data-print="employeeId"></span><br><span>(Employee ID. No.)</span></div>
+        <div><strong>ตำแหน่ง</strong> <span data-print="position"></span><br><span>(Position)</span></div>
+        <div>Department <span data-print="department"></span></div>
+        <div>Cost Center <span data-print="costCenter"></span></div>
+        <div>Division <span data-print="division"></span></div>
+      </div>
+      <table class="report-table" id="reportTable">
+        <thead>
+          <tr>
+            <th>วันที่<br>(Date)</th>
+            <th>เข้า<br>(In)</th>
+            <th>ออก<br>Out</th>
+            <th>Site งาน</th>
+            <th>รายละเอียดงานที่ทำ<br>(Wok Description)</th>
+            <th>ลายเซ็นต์พนักงาน<br>(Employee's sign)</th>
+            <th>ลายเซ็นต์ลูกค้าหรือหัวหน้างาน<br>(Attest sign)</th>
+            <th>หมายเหตุ</th>
+          </tr>
+        </thead>
+        <tbody id="reportRows"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
