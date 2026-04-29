@@ -77,8 +77,9 @@ function daysInSelectedMonth() {
 }
 
 function currentMonthEntries() {
+  const days = daysInSelectedMonth();
   if (!state.months[state.selectedMonth]) {
-    state.months[state.selectedMonth] = Array.from({ length: daysInSelectedMonth() }, (_, index) => ({
+    state.months[state.selectedMonth] = Array.from({ length: days }, (_, index) => ({
       day: index + 1,
       timeIn: index === 0 ? "07:30" : "",
       timeOut: index === 0 ? "16:30" : "",
@@ -89,6 +90,15 @@ function currentMonthEntries() {
       signature: [],
       remark: ""
     }));
+  } else {
+    const entries = state.months[state.selectedMonth];
+    if (entries.length < days) {
+      for (let i = entries.length; i < days; i++) {
+        entries.push({ day: i + 1, timeIn: "", timeOut: "", site: "", description: "", employeeSign: "", customerName: "", signature: [], remark: "" });
+      }
+    } else if (entries.length > days) {
+      state.months[state.selectedMonth] = entries.slice(0, days);
+    }
   }
   return state.months[state.selectedMonth];
 }
