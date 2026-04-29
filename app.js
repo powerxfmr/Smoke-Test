@@ -1,3 +1,4 @@
+const DAY_COUNT = 31;
 const STORAGE_KEY = "timesheet-web-v2";
 
 const fields = {
@@ -71,15 +72,9 @@ function saveState() {
   fields.savedStatus.textContent = "Saved";
 }
 
-function daysInSelectedMonth() {
-  const [year, month] = state.selectedMonth.split("-").map(Number);
-  return new Date(year, month, 0).getDate();
-}
-
 function currentMonthEntries() {
-  const days = daysInSelectedMonth();
   if (!state.months[state.selectedMonth]) {
-    state.months[state.selectedMonth] = Array.from({ length: days }, (_, index) => ({
+    state.months[state.selectedMonth] = Array.from({ length: DAY_COUNT }, (_, index) => ({
       day: index + 1,
       timeIn: index === 0 ? "07:30" : "",
       timeOut: index === 0 ? "16:30" : "",
@@ -92,12 +87,8 @@ function currentMonthEntries() {
     }));
   } else {
     const entries = state.months[state.selectedMonth];
-    if (entries.length < days) {
-      for (let i = entries.length; i < days; i++) {
-        entries.push({ day: i + 1, timeIn: "", timeOut: "", site: "", description: "", employeeSign: "", customerName: "", signature: [], remark: "" });
-      }
-    } else if (entries.length > days) {
-      state.months[state.selectedMonth] = entries.slice(0, days);
+    for (let i = entries.length; i < DAY_COUNT; i++) {
+      entries.push({ day: i + 1, timeIn: "", timeOut: "", site: "", description: "", employeeSign: "", customerName: "", signature: [], remark: "" });
     }
   }
   return state.months[state.selectedMonth];
