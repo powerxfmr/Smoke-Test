@@ -1,4 +1,3 @@
-const DAY_COUNT = 30;
 const STORAGE_KEY = "timesheet-web-v2";
 
 const fields = {
@@ -72,9 +71,14 @@ function saveState() {
   fields.savedStatus.textContent = "Saved";
 }
 
+function daysInSelectedMonth() {
+  const [year, month] = state.selectedMonth.split("-").map(Number);
+  return new Date(year, month, 0).getDate();
+}
+
 function currentMonthEntries() {
   if (!state.months[state.selectedMonth]) {
-    state.months[state.selectedMonth] = Array.from({ length: DAY_COUNT }, (_, index) => ({
+    state.months[state.selectedMonth] = Array.from({ length: daysInSelectedMonth() }, (_, index) => ({
       day: index + 1,
       timeIn: index === 0 ? "07:30" : "",
       timeOut: index === 0 ? "16:30" : "",
